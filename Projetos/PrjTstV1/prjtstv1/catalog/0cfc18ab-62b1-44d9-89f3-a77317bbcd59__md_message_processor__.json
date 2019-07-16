@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "TextToMail"
+        }
+    },
+    "outputMessageMetadata": {},
+    "id": "0cfc18ab-62b1-44d9-89f3-a77317bbcd59",
+    "version": "5.2.0.0"
+}

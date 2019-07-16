@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <file:connector name="File" outputPattern="selectResult.txt" writeToDirectory="D:\Projetos\PrjTstV\prjbldv1" readFromDirectory="D:\Projetos\PrjTstV\prjbldv1" workDirectory="D:\Projetos\PrjTstV\prjbldv1" workFileNamePattern="TESTE.TXT" autoDelete="true" outputAppend="true" streaming="true" recursive="true" validateConnections="true" doc:name="File"/>
+    <db:oracle-config name="Oracle_Configuration" host="localhost" port="1521" instance="XE" user="blira" password="Tsunami2019" doc:name="Oracle Configuration"/>
+    <flow name="prjbldv1Flow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/exec" doc:name="HTTP"/>
+        <set-variable variableName="DDLComand" value="SELECT * FROM PRODUTOS" doc:name="Variable"/>
+        <logger message="#[flowVars.DDLComand]" level="INFO" doc:name="Logger"/>
+        <set-payload value="#[flowVars.DDLComand]" doc:name="Set Payload"/>
+        <db:insert config-ref="Oracle_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[INSERT INTO PRODUTOS VALUES(1, 'Vergalhão Gerdau', 100, 1.70)]]></db:parameterized-query>
+        </db:insert>
+        <db:select config-ref="Oracle_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[SELECT * FROM PRODUTOS]]></db:parameterized-query>
+        </db:select>
+        <dw:transform-message doc:name="Transform Message" metadata:id="171a903c-e03f-4d33-b725-5f7b69d74745">
+            <dw:input-variable mimeType="application/java" variableName="DDLComand"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output text/plsin
+---
+payload.DSC_PRD]]></dw:set-payload>
+        </dw:transform-message>
+        <file:outbound-endpoint path="D:\Projetos\PrjTstV\prjbldv1" outputPattern="selectProductsResult.txt" connector-ref="File" responseTimeout="10000" doc:name="File"/>
+        <set-payload value="Sucesso!!!" doc:name="Set Payload"/>
+    </flow>
+</mule>

@@ -1,0 +1,22 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "SelectFromProdutos"
+        },
+        "flowVariables": {
+            "DDLComand": {
+                "connectorName": "#_custom_mule_metadata_type_#",
+                "typeId": "selectProductTableVar"
+            }
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "SelectFromProdutos"
+        }
+    },
+    "id": "171a903c-e03f-4d33-b725-5f7b69d74745",
+    "version": "5.2.0.0"
+}

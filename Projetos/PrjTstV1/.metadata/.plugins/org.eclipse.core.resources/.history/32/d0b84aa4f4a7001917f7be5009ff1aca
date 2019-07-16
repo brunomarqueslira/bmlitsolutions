@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="1010" doc:name="HTTP Listener Configuration"/>
+    <flow name="prjtstv1Flow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/execute" doc:name="HTTP" metadata:id="b2745a67-8a61-47ec-b9e8-b56c7c6e9b9f"/>
+        <set-variable variableName="TextToMail" value="#[payload]" doc:name="Variable" metadata:id="0cfc18ab-62b1-44d9-89f3-a77317bbcd59"/>
+        <logger message="#[flowVars.TextToMail]" level="INFO" doc:name="Logger"/>
+        <set-payload value="#[flowVars.TextToMail]" doc:name="Set Payload"/>
+    </flow>
+</mule>

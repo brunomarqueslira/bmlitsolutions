@@ -1,0 +1,13 @@
+{
+    "inputMessageMetadata": {},
+    "outputMessageMetadata": {
+        "flowVariables": {
+            "TextoIn": {
+                "connectorName": "#_custom_mule_metadata_type_#",
+                "typeId": "TextToMail"
+            }
+        }
+    },
+    "id": "b2745a67-8a61-47ec-b9e8-b56c7c6e9b9f",
+    "version": "5.2.0.0"
+}
